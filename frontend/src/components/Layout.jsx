@@ -21,6 +21,7 @@ export default function Layout() {
           <NavLink to="/pos">Orders</NavLink>
           <NavLink to="/tables">Tables</NavLink>
           <NavLink to="/kitchen">Kitchen</NavLink>
+          <NavLink to="/payments">Payments</NavLink>
           {isManager && <NavLink to="/menu">Menu</NavLink>}
           {isManager && <NavLink to="/dashboard">Dashboard</NavLink>}
         </nav>

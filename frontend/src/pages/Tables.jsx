@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../api';
 
 export default function Tables() {
   const [tables, setTables] = useState([]);
   const [orders, setOrders] = useState([]);
   const [mergeSelection, setMergeSelection] = useState([]);
-  const [transferFrom, setTransferFrom] = useState(null);
+  const navigate = useNavigate();
 
   const load = async () => {
     const [t, o] = await Promise.all([api.getTables(), api.getOrders()]);
@@ -16,13 +17,6 @@ export default function Tables() {
   useEffect(() => { load(); }, []);
 
   const statusColor = { available: 'green', occupied: 'orange', awaiting_payment: 'red' };
-
-  const handleTransfer = async (targetId) => {
-    if (!transferFrom) return;
-    await api.transferTable(transferFrom, targetId);
-    setTransferFrom(null);
-    load();
-  };
 
   const toggleMerge = (orderId) => {
     setMergeSelection((prev) =>
@@ -44,34 +38,28 @@ export default function Tables() {
 
       <div className="tables-grid">
         {tables.map((t) => (
-          <div
-            key={t.id}
-            className={`table-card status-${t.status}`}
-            onClick={() => transferFrom && t.status === 'available' && handleTransfer(t.id)}
-          >
+          <div key={t.id} className={`table-card status-${t.status}`}>
             <h3>{t.table_number}</h3>
             <span className={`table-status ${statusColor[t.status]}`}>
               {t.status.replace('_', ' ')}
             </span>
             {t.active_order_id && <span className="order-ref">Order #{t.active_order_id}</span>}
-            <div className="table-actions">
+            {t.order_status === 'awaiting_payment' && t.active_order_id && (
               <button
-                className="btn btn-sm btn-outline"
-                onClick={(e) => { e.stopPropagation(); setTransferFrom(t.id); }}
+                className="btn btn-primary btn-sm table-action-btn"
+                onClick={() => navigate(`/payment/${t.active_order_id}`)}
               >
-                Transfer From
+                Take Payment
               </button>
+            )}
+            <div className="table-actions">
+              {t.status === 'occupied' && <span className="table-note">Occupied</span>}
+              {t.status === 'awaiting_payment' && <span className="table-note">Ready for payment</span>}
+              {t.status === 'available' && <span className="table-note">Available</span>}
             </div>
           </div>
         ))}
       </div>
-
-      {transferFrom && (
-        <div className="alert alert-info">
-          Select an available table to transfer orders from table #{transferFrom}
-          <button className="btn btn-sm" onClick={() => setTransferFrom(null)}>Cancel</button>
-        </div>
-      )}
 
       <div className="merge-section">
         <h3>Merge Orders</h3>

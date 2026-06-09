@@ -337,6 +337,32 @@ body {
 .table-status.red { color: var(--danger); }
 .order-ref { display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
 .table-actions { margin-top: 0.75rem; }
+.table-note {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.table-action-btn { margin-top: 0.75rem; }
+
+/* Payments */
+.payments-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.payment-queue-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: white;
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow);
+}
+.payment-queue-item h3 { margin-bottom: 0.25rem; }
+.payment-queue-item p { margin: 0.15rem 0; color: var(--text-muted); }
 
 .merge-section { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
 .merge-list { display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; }

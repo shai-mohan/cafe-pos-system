@@ -9,6 +9,7 @@ import Tables from './pages/Tables';
 import MenuManage from './pages/MenuManage';
 import Dashboard from './pages/Dashboard';
 import Payment from './pages/Payment';
+import Payments from './pages/Payments';
 import Receipt from './pages/Receipt';
 
 function PrivateRoute({ children, managerOnly = false }) {
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="pos" element={<POS />} />
         <Route path="kitchen" element={<Kitchen />} />
         <Route path="tables" element={<Tables />} />
+        <Route path="payments" element={<Payments />} />
         <Route path="payment/:orderId" element={<Payment />} />
         <Route path="receipt/:orderId" element={<Receipt />} />
         <Route path="menu" element={<PrivateRoute managerOnly><MenuManage /></PrivateRoute>} />
